@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Збери речення (Simple Tenses)</title>
+  <style>
+    
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f2f2f2;
+      border-radius: 10px;
+    }
+    h2 {
+      margin-bottom: 10px;
+    }
+    #wordBank, #answerArea {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+      min-height: 40px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .word {
+      padding: 6px 10px;
+      background: #d0e6ff;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #result {
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    #score {
+      margin-top: 10px;
+    }
+    button {
+      padding: 8px 16px;
+      margin-top: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      background: #1976d2;
+      color: white;
+    }
+    button:hover {
+      background: #1565c0;
+    }
+    
+     // 
+/* Стилі модального вікна */
+      /* Стилі модального вікна */
+.modal {
+  display: none; /* приховане за замовчуванням */
+  position: fixed;
+  z-index: 1000; /* Перекриває всі інші елементи */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Темний фон */
+}
+
+.modal {
+  display: none; /* приховане за замовчуванням */
+  position: fixed;
+  z-index: 1000; /* Перекриває всі інші елементи */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Темний фон */
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+  margin: 10% auto; /* Центрування модального вікна */
+}
+
+.close {
+  position: absolute;
+  top: 8px;
+  right: 14px;
+  font-size: 24px;
+  font-weight: bold;
+  color: #555;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #000;
+}
+
+/* Анімація для появи модального вікна */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.modal-content th, .modal-content td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+//
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.tablink {
+  flex: 1;
+  padding: 10px;
+  background-color: #eee;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tablink.active {
+  background-color: #ddd;
+}
+
+.tabcontent {
+  display: none;
+}
+
+.modal-content table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.modal-content th, .modal-content td {
+  border: 1px solid #ccc;
+  padding: 6px;
+}
+
+@media screen and (max-width: 600px) {
+  .modal-content {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .modal-content table {
+    font-size: 12px;
+  }
+
+  .tablink {
+    font-size: 14px;
+    padding: 8px;
+  }
+}
+    .modal-content ul {
+  padding-left: 20px;
+}
+
+.modal-content li {
+  margin-bottom: 6px;
+}
+
+//
+
+  </style>
+</head>
+<body>
+  
+  <h2>🔤 Збери речення (Simple Tenses)</h2>
+  <h2 id="question">Завантаження...</h2>
+  <div id="wordBank"></div>
+  <div id="answerArea"></div>
+  <div id="result"></div>
+  <button onclick="submitAnswer()">Перевірити</button>
+  <button id="nextBtn" onclick="nextQuestion()" style="display: none;">Наступне</button>
+  <button id="restartBtn" style="display: none;">🔁 Почати спочатку</button>
+  <button id="rulesBtn">📘 Правила</button>
+  
+  <div id="score"></div>
+  
+  <!-- Modal -->
+<div id="rulesModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <span class="close" id="closeRules">&times;</span>
+
+    <div class="tabs">
+      <button class="tablink" onclick="openTab('rulesTab')">📘Правила</button>
+      <button class="tablink" onclick="openTab('verbsTab')">📙Дієслова</button>
+      <button class="tablink" onclick="openTab('examplesTab')">📗 Приклади речень</button>
+    </div>
+
+    <div id="rulesTab" class="tabcontent" style="display: none;">
+     
+<style>
+  .grammar-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 16px;
+  }
+
+  .grammar-table th,
+  .grammar-table td {
+    border: 1px solid #999;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .grammar-table th {
+    background-color: #f0f0f0;
+    text-align: center;
+  }
+
+  .red {
+    color: red;
+    font-weight: bold;
+  }
+
+  @media (max-width: 600px) {
+    .grammar-table thead {
+      display: none;
+    }
+
+    .grammar-table,
+    .grammar-table tbody,
+    .grammar-table tr,
+    .grammar-table td {
+      display: block;
+      width: 100%;
+    }
+
+    .grammar-table tr {
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+
+    .grammar-table td {
+      padding-left: 50%;
+      position: relative;
+      text-align: left;
+    }
+
+    .grammar-table td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      font-weight: bold;
+    }
+  }
+</style>
+      <h3>📘 Таблиця правил Simple-часів</h3>
+      <table>
+        <thead>
+          <tr>
+        <th>Питання</th>
+      <th>Ствердження</th>
+      <th>Заперечення</th>
+      <th>Час</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td data-label="Питання">
+        <span class="red">Will</span> I / you / we / they / he / she love?
+      </td>
+      <td data-label="Ствердження">
+        I / you / we / they / he / she <span class="red">will</span> love
+      </td>
+      <td data-label="Заперечення">
+        I / you / we / they / he / she <span class="red">won’t</span> love
+      </td>
+      <td data-label="Час"><strong>МАЙБУТНЄ</strong></td>
+    </tr>
+    <tr>
+      <td data-label="Питання">
+        <span class="red">Do</span> I / you / we / they love?<br>
+        <span class="red">Does</span> he / she love?
+      </td>
+      <td data-label="Ствердження">
+        I / you / we / they love.<br>
+        He / she love<span class="red">s</span>
+      </td>
+      <td data-label="Заперечення">
+        I / you / we / they <span class="red">don’t</span> love.<br>
+        He / she <span class="red">doesn’t</span> love
+      </td>
+      <td data-label="Час"><strong>ТЕПЕРІШНЄ</strong></td>
+    </tr>
+    <tr>
+      <td data-label="Питання">
+        <span class="red">Did</span> I / you / we / they / he / she love?
+      </td>
+      <td data-label="Ствердження">
+        I / you / we / they / he / she love<span class="red">d</span>
+      </td>
+      <td data-label="Заперечення">
+        I / you / we / they / he / she <span class="red">didn’t</span> love
+      </td>
+      <td data-label="Час"><strong>МИНУЛЕ</strong></td>
+    </tr>
+
+        </tbody>
+      </table>
+    </div>
+    
+ 
+   
+
+    <div id="verbsTab" class="tabcontent" style="display: none;">
+      <h3>📙 Найпоширеніші неправильні дієслова</h3>
+      <table>
+        <thead>
+          <tr><th>Інфінітив</th><th>Past Simple</th><th>Past Participle</th><th>Переклад</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>go</td><td>went</td><td>gone</td><td>йти</td></tr>
+          <tr><td>come</td><td>came</td><td>come</td><td>приходити</td></tr>
+          <tr><td>see</td><td>saw</td><td>seen</td><td>бачити</td></tr>
+          <tr><td>take</td><td>took</td><td>taken</td><td>брати</td></tr>
+          <tr><td>get</td><td>got</td><td>got/gotten</td><td>отримувати</td></tr>
+          <tr><td>eat</td><td>ate</td><td>eaten</td><td>їсти</td></tr>
+          <tr><td>write</td><td>wrote</td><td>written</td><td>писати</td></tr>
+          <tr><td>know</td><td>knew</td><td>known</td><td>знати</td></tr>
+          <tr><td>make</td><td>made</td><td>made</td><td>робити</td></tr>
+          <tr><td>say</td><td>said</td><td>said</td><td>сказати</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div id="examplesTab" class="tabcontent" style="display: none;">
+      <h3>📗 Приклади речень (Simple)</h3>
+      <ul>
+        <li><b>Present Simple:</b> She goes to school every day.</li>
+        <li><b>Past Simple:</b> I visited my friend yesterday.</li>
+        <li><b>Future Simple:</b> They will arrive tomorrow.</li>
+        <li><b>Present Simple:</b> He doesn’t like coffee.</li>
+        <li><b>Past Simple:</b> We didn’t see that movie.</li>
+        <li><b>Future Simple:</b> Will you come with us?</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+  <script>
+    
+    const tasks = [
+      {
+        ua: "Він грає у футбол щонеділі.",
+        correct: "He plays football every Sunday",
+        extra: ["play", "played", "playing"]
+      },
+      {
+        ua: "Ми ходили в парк учора.",
+        correct: "We went to the park yesterday",
+        extra: ["go", "gone", "going"]
+      },
+      {
+        ua: "Я не працюю по вихідних.",
+        correct: "I don't work on weekends",
+        extra: ["doesn't", "worked", "is working"]
+      },
+      {
+        ua: "Вона читає книжку.",
+        correct: "She reads a book",
+        extra: ["read", "reading", "will read"]
+      },
+      {
+        ua: "Я купив новий телефон.",
+        correct: "I bought a new phone",
+        extra: ["buy", "buys", "buyed"]
+      },
+      {
+        ua: "Ми побачимося наступного тижня.",
+        correct: "We will meet next week",
+        extra: ["meets", "met", "meeting"]
+      },
+      {
+        ua: "Він зробить це завтра.",
+        correct: "He will do it tomorrow",
+        extra: ["does", "did", "doing"]
+      }
+    ];
+
+    let allTasks = [...tasks];
+    let current = 0;
+    let correctCount = 0;
+    let incorrectCount = 0;
+    let wrongTasks = [];
+
+    const questionEl = document.getElementById("question");
+    const wordBank = document.getElementById("wordBank");
+    const answerArea = document.getElementById("answerArea");
+    const result = document.getElementById("result");
+    const score = document.getElementById("score");
+    const nextBtn = document.getElementById("nextBtn");
+    const restartBtn = document.getElementById("restartBtn");
+
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
+
+    function loadQuestion() {
+      const task = allTasks[current];
+      questionEl.innerText = `🇺🇦 ${task.ua}`;
+      wordBank.innerHTML = "";
+      answerArea.innerHTML = "";
+      result.innerText = "";
+      nextBtn.style.display = "none";
+
+      const baseWords = task.correct.split(" ");
+      const fakeWords = task.extra;
+      const combined = [...baseWords];
+
+      fakeWords.forEach(fake => {
+        combined.splice(Math.floor(Math.random() * (combined.length + 1)), 0, fake);
+      });
+
+      const words = shuffle(combined);
+
+      words.forEach(word => {
+        const span = document.createElement("span");
+        span.innerText = word;
+        span.className = "word";
+        span.onclick = () => {
+          span.remove();
+          const answerWord = document.createElement("span");
+          answerWord.innerText = word;
+          answerWord.className = "word";
+          answerWord.onclick = () => {
+            answerWord.remove();
+            wordBank.appendChild(span);
+          };
+          answerArea.appendChild(answerWord);
+        };
+        wordBank.appendChild(span);
+      });
+
+      updateScore();
+    }
+    
+     // Відкрити модальне вікно
+    document.getElementById("rulesBtn").onclick = () => {
+  document.getElementById("rulesModal").style.display = "block";
+};
+
+     // Закрити модальне вікно по кліку на X
+document.getElementById("closeRules").onclick = () => {
+  document.getElementById("rulesModal").style.display = "none";
+};
+    
+// Закрити модальне вікно при кліку поза його вмістом
+ window.onclick = function(event) {
+  const modal = document.getElementById("rulesModal");
+  if (event.target === modal) {
+    modal.style.display = "none";
+  }
+};
+
+    function submitAnswer() {
+      const userAnswer = Array.from(answerArea.children).map(w => w.innerText).join(" ");
+      const correctAnswer = allTasks[current].correct;
+
+      if (userAnswer === correctAnswer) {
+        result.innerText = "✅ Правильно!";
+        result.style.color = "green";
+        correctCount++;
+      } else {
+        result.innerText = `❌ Неправильно. Правильна відповідь: ${correctAnswer}`;
+        result.style.color = "red";
+        wrongTasks.push(allTasks[current]);
+        incorrectCount++;
+      }
+
+      nextBtn.style.display = "inline-block";
+      updateScore();
+    }
+
+    function nextQuestion() {
+      current++;
+      if (current < allTasks.length) {
+        loadQuestion();
+      } else if (wrongTasks.length > 0) {
+        allTasks = [...wrongTasks];
+        wrongTasks = [];
+        current = 0;
+        questionEl.innerText = "🔁 Повторення помилкових речень:";
+        loadQuestion();
+      } else {
+        questionEl.innerText = "🎉 Тест завершено! Всі речення виконано правильно.";
+        wordBank.innerHTML = "";
+        answerArea.innerHTML = "";
+        result.innerText = "";
+        nextBtn.style.display = "none";
+        restartBtn.style.display = "inline-block";
+      }
+    }
+
+    restartBtn.onclick = () => {
+      allTasks = [...tasks];
+      current = 0;
+      correctCount = 0;
+      incorrectCount = 0;
+      wrongTasks = [];
+      restartBtn.style.display = "none";
+      loadQuestion();
+    };
+
+    function updateScore() {
+      score.innerText = `✅ Правильних: ${correctCount} | ❌ Неправильних: ${incorrectCount}`;
+    }
+function openTab(tabId) {
+  const tabs = document.querySelectorAll(".tabcontent");
+  const buttons = document.querySelectorAll(".tablink");
+
+  tabs.forEach(tab => tab.style.display = "none");
+  buttons.forEach(btn => btn.classList.remove("active"));
+
+  document.getElementById(tabId).style.display = "block";
+  event.currentTarget.classList.add("active");
+}
+    loadQuestion();
+  </script>
+</body>
+</html>
